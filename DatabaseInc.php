@@ -29,6 +29,8 @@
 include('RedirectRootInc.php'); 
 include('ConnectionClass.php'); 
 require_once("functions/PragRepFnc.php");
+require_once("functions/DrawTabFnc.php");
+require_once("functions/PopTableFnc.php");
 function db_start()
 {	global $DatabaseServer,$DatabaseUsername,$DatabasePassword,$DatabaseName,$DatabasePort,$DatabaseType,$connection ;
 
@@ -64,7 +66,7 @@ function db_start()
 //		ie, $processable_results = DBQuery("select * from students");
 function DBQuery($sql)
 {	global $DatabaseType,$_openSIS;
-
+	
 	$connection = db_start();
 
 	switch($DatabaseType)
@@ -76,7 +78,8 @@ function DBQuery($sql)
 			$sql = str_replace('&#039;', "", $sql);
 			$sql = str_replace('&lt;', "", $sql);
 			$sql = str_replace('&gt;', "", $sql);
-		  	$sql = par_rep("/([,\(=])[\r\n\t ]*''/",'\\1NULL',$sql);
+			  $sql = par_rep("/([,\(=])[\r\n\t ]*''/",'\\1NULL',$sql);
+			  
 			if(preg_match_all("/'(\d\d-[A-Za-z]{3}-\d{2,4})'/",$sql,$matches))
 				{ 
 					foreach($matches[1] as $match)
@@ -93,6 +96,7 @@ function DBQuery($sql)
 						$sql = par_rep("/'$match'/","'$dt'",$sql);
 					}
 				}
+				
 			if(substr($sql,0,6)=="BEGIN;")
 			{
 				$array = explode( ";", $sql );
@@ -120,9 +124,12 @@ function DBQuery($sql)
 			}
 			else
 			{
-                                $user_agent=explode('/',$_SERVER['HTTP_USER_AGENT']);
+				
+								$user_agent=explode('/',$_SERVER['HTTP_USER_AGENT']);
+								
                                 if($user_agent[0]=='Mozilla')
                                 {
+									echo "cek1sss===".$sql;    
                                 $result = $connection->query($sql) or die(db_show_error($sql,"DB Execute Failed.",mysqli_error($connection)));
                                 }
                                 

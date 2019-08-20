@@ -42,6 +42,7 @@ if(CONFIG_INC==0)
     }
     include("DatabaseInc.php");
     include("UpgradeInc.php");
+    
     include('functions/DbGetFnc.php');
   #  Set Build Date and Version Number here.
   

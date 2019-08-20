@@ -26,7 +26,14 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #***************************************************************************************
-error_reporting(0);
+// error_reporting(E_ALL);
+
+phpinfo();
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include_once("functions/DelDirectoryFnc.php");
 include_once("functions/ParamLibFnc.php");
 require_once("functions/PragRepFnc.php");
@@ -46,6 +53,7 @@ if (optional_param('dis', '', PARAM_ALPHAEXT) == 'assoc_mis') {
     $error[] = "No student is associated with the parent. Please contact the school administration.";
 }
 
+
 if (isset($_GET['ins']))
     $install = optional_param('ins', '', PARAM_ALPHAEXT);
 
@@ -55,8 +63,9 @@ if ($install == 'comp') {
         $remove_directory = delete_directory($dir);
     }
 }
-
+echo "tes";
 require_once('Warehouse.php');
+echo "tes3";
 if (optional_param('modfunc', '', PARAM_ALPHAEXT) == 'logout') {
     if ($_SESSION) {
         DBQuery("DELETE FROM log_maintain WHERE SESSION_ID = '" . $_SESSION['X'] . "'");
@@ -64,7 +73,7 @@ if (optional_param('modfunc', '', PARAM_ALPHAEXT) == 'logout') {
     }
     session_destroy();
 }
-
+echo "tes2";
 if (optional_param('register', '', PARAM_NOTAGS)) {
     if (optional_param('R1', '', PARAM_ALPHA) == 'register')
         header("Location:register.php");
@@ -75,7 +84,7 @@ if (optional_param('register', '', PARAM_NOTAGS)) {
     //$_POST['USERNAME'] = par_rep('/[^A-Za-z0-9\-]/', '', $_POST['USERNAME']);
 //if (isset($_GET['USERNAME']))
     //$_GET['USERNAME'] = par_rep('/[^A-Za-z0-9\-]/', '', $_GET['USERNAME']);
-
+    
 if (optional_param('USERNAME', '', PARAM_RAW) && optional_param('PASSWORD', '', PARAM_RAW)) {
     db_start();
     $_REQUEST['USERNAME'] = mysqli_real_escape_string($connection, $_REQUEST['USERNAME']);
@@ -94,7 +103,7 @@ if (optional_param('USERNAME', '', PARAM_RAW) && optional_param('PASSWORD', '', 
 //                    }
 //         }
     # ---------------------------- Seat Count Update End ------------------------------------------- #
-
+    
 
     $username = optional_param('USERNAME', '', PARAM_RAW);
     if($_REQUEST['remember']) 

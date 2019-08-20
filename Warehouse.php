@@ -29,10 +29,11 @@
 if (WAREHOUSE_PHP == 0) {
     define("WAREHOUSE_PHP", 1);
     $staticpath = dirname(__FILE__) . '/';
-
+    // echo "cek1".$staticpath;
     require_once($staticpath . "ConfigInc.php");
+    
     require_once("DatabaseInc.php");
-
+    
     //Create Default Year Picture Folder
     if (!file_exists($StudentPicturesPath)) {
         mkdir($StudentPicturesPath);
